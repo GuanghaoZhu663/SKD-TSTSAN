@@ -10,7 +10,7 @@ Put the micro-expression datasets in the `Dataset` folder. Take CASME II dataset
 3. Use `LOSO.py` for leave-one-subject-out cross-validation dataset splitting
 
 ## Usage
-1. Configure `pre_trained_model_path`, `main_path`, and `exp_name` in `train_classify_SKD_TSTSAN.py`
+1. Configure `pre_trained_model_path`, `main_path`, and `exp_name` in `train_classify_SKD_TSTSAN.py`. We provide a pretrained SKD-TSTSAN model weight file trained on the macro-expression dataset in the `Pretrained_model` folder
 2. Run `train_classify_SKD_TSTSAN.py` to train the model
 
 ## Citation

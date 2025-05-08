@@ -8,26 +8,44 @@ def crop_images_CASME2_retinaface():
     face_det_model_path = "RetinaFace/Resnet50_Final.pth"
     face_detection = FaceDetector(face_det_model_path)
 
-    base_path = "Dataset/CASME2_onset_apex_offset_retinaface"
+    main_folder_path = "Dataset/CASME2_RAW_selected"
 
-    # Iterate through all category folders
-    for category in os.listdir(base_path):
-        category_path = os.path.join(base_path, category)
-        if os.path.isdir(category_path):  # Make sure it's a directory
-            for dir_crop_sub_vid_img in glob.glob(os.path.join(category_path, '*.jpg')):
-                image = cv2.imread(dir_crop_sub_vid_img)
+    for sub_folder_name in os.listdir(main_folder_path):
+        sub_folder_path = os.path.join(main_folder_path, sub_folder_name)
 
-                h, w, c = image.shape
+        if os.path.isdir(sub_folder_path):
+            print(f"Processing sub-folder: {sub_folder_name}")
 
-                face_left, face_top, face_right, face_bottom = \
-                    face_detection.cal(image)
+            for sub_sub_folder_name in os.listdir(sub_folder_path):
+                sub_sub_folder_path = os.path.join(sub_folder_path, sub_sub_folder_name)
 
-                img = image[face_top:face_bottom + 1,
-                      face_left:face_right + 1, :]
+                if os.path.isdir(sub_sub_folder_path):
+                    print(f"Processing sub-sub-folder: {sub_sub_folder_name}")
 
-                face = cv2.resize(img, (128, 128))  # Resize to 128x128
+                    index = 0
+                    face_left = 0
+                    face_right = 0
+                    face_top = 0
+                    face_bottom = 0
+                    for img_file_path in glob.glob(os.path.join(sub_sub_folder_path, '*.jpg')):
+                        if index == 0:
+                            image = cv2.imread(img_file_path)
 
-                cv2.imwrite(dir_crop_sub_vid_img, face)
+                            face_left, face_top, face_right, face_bottom = face_detection.cal(image)
+
+                            face = image[face_top:face_bottom + 1, face_left:face_right + 1, :]
+                            face = cv2.resize(face, (128, 128))
+
+                            cv2.imwrite(img_file_path, face)
+                        else:
+                            image = cv2.imread(img_file_path)
+
+                            face = image[face_top:face_bottom + 1, face_left:face_right + 1, :]
+                            face = cv2.resize(face, (128, 128))
+
+                            cv2.imwrite(img_file_path, face)
+                        index += 1
+    print("Face cropping and saving complete.")
 
 
 if __name__ == '__main__':

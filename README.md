@@ -5,7 +5,7 @@ Official code for "[Three-Stream Temporal-Shift Attention Network Based on Self-
 This repository is based on PyTorch 2.1.1, CUDA 11.8 and Python 3.10.13. All experiments in our paper were conducted on NVIDIA GeForce RTX 4090 GPU.
 ## Dataset
 Put the micro-expression datasets in the `Dataset` folder. Take CASME II dataset preprocessing as an example:
-1. Use `load_images.py` for face detection and cropping
+1. Put the CASME II raw selected images in `Dataset/CASME2_RAW_selected`, then use `load_images.py` for face detection and cropping
 2. Extract the `onset frame`, `apex frame`, and `offset frame` from the dataset.
 3. Use `optflow_for_classify.py` for optical flow computation
 4. Use `LOSO.py` for leave-one-subject-out cross-validation dataset splitting
